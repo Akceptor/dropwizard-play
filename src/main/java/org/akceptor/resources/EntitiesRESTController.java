@@ -1,29 +1,43 @@
 package org.akceptor.resources;
 
-import javax.validation.Validator;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import com.codahale.metrics.annotation.Timed;
+import io.dropwizard.hibernate.UnitOfWork;
+import io.dropwizard.jersey.params.IntParam;
+import org.akceptor.core.Thing;
+import org.akceptor.db.ThingDAO;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
-@Path("/entities")
+@Path("/things")
 @Produces(MediaType.APPLICATION_JSON)
 public class EntitiesRESTController {
-    private final Validator validator;
+    private final ThingDAO thingDAO;
 
-    public EntitiesRESTController(Validator validator) {
-        this.validator = validator;
+    public EntitiesRESTController(ThingDAO thingDAO) {
+        this.thingDAO = thingDAO;
     }
 
     @GET
+    @UnitOfWork
     public Response getEntities() {
-        Map<String, String> map = new HashMap<>();
-        map.put("1", "User one");
-        map.put("2", "User two");
-        return Response.ok(map).build();
+        return Response.ok(thingDAO.findAll()).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Timed
+    @UnitOfWork
+    public Optional<Thing> findPerson(@PathParam("id") IntParam id) {
+        return thingDAO.findById(id.get());
+    }
+
+    @POST
+    @UnitOfWork
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Thing createEntity(Thing e) {
+        return thingDAO.create(e);
     }
 }

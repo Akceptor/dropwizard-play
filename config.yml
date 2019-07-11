@@ -2,3 +2,17 @@ logging:
   level: INFO
   loggers:
     org.akceptor: DEBUG
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 9000
+  adminConnectors:
+    - type: http
+      port: 9001
+
+database:
+  driverClass: org.h2.Driver
+  user: sa
+  password: sa
+  url: jdbc:h2:./target/testApp

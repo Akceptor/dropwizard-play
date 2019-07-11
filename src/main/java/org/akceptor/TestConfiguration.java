@@ -1,18 +1,31 @@
 package org.akceptor;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import io.dropwizard.jetty.HttpConnectorFactory;
-import io.dropwizard.server.DefaultServerFactory;
+import io.dropwizard.db.DataSourceFactory;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public class TestConfiguration extends Configuration {
     // TODO: implement service configuration
 
-    public TestConfiguration() {
-        super();
-        // The following is to make sure it runs with a random port. parallel tests clash otherwise
-        ((HttpConnectorFactory) ((DefaultServerFactory) getServerFactory()).getApplicationConnectors().get(0)).setPort(9000);
-        // this is for admin port
-        ((HttpConnectorFactory) ((DefaultServerFactory) getServerFactory()).getAdminConnectors().get(0)).setPort(9001);
+    @Valid
+    @NotNull
+    @JsonProperty
+    private DataSourceFactory database = new DataSourceFactory();
+
+    @JsonProperty("database")
+    public DataSourceFactory getDataSourceFactory() {
+        return database;
     }
 
+    @JsonProperty("database")
+    public void setDatabase(DataSourceFactory database) {
+        this.database = database;
+    }
+
+    public TestConfiguration() {
+        super();
+    }
 }
