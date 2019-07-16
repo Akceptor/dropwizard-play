@@ -9,7 +9,7 @@ import io.dropwizard.setup.Environment;
 import org.akceptor.core.Thing;
 import org.akceptor.db.ThingDAO;
 import org.akceptor.health.AppHealthCheck;
-import org.akceptor.resources.EntitiesRESTController;
+import org.akceptor.resources.ThingsRESTController;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 
 import javax.ws.rs.client.Client;
@@ -49,7 +49,7 @@ public class TestApplication extends Application<TestConfiguration> {
     public void run(final TestConfiguration configuration,
                     final Environment environment) {
         final ThingDAO dao = new ThingDAO(hibernateBundle.getSessionFactory());
-        environment.jersey().register(new EntitiesRESTController(dao));
+        environment.jersey().register(new ThingsRESTController(dao));
         //Health
         final Client client = new JerseyClientBuilder().build();
         environment.healthChecks().register("APIHealthCheck", new AppHealthCheck(client, configuration));

@@ -13,16 +13,16 @@ import java.util.Optional;
 
 @Path("/things")
 @Produces(MediaType.APPLICATION_JSON)
-public class EntitiesRESTController {
+public class ThingsRESTController {
     private final ThingDAO thingDAO;
 
-    public EntitiesRESTController(ThingDAO thingDAO) {
+    public ThingsRESTController(ThingDAO thingDAO) {
         this.thingDAO = thingDAO;
     }
 
     @GET
     @UnitOfWork
-    public Response getEntities() {
+    public Response getThings() {
         return Response.ok(thingDAO.findAll()).build();
     }
 
@@ -30,14 +30,14 @@ public class EntitiesRESTController {
     @Path("/{id}")
     @Timed
     @UnitOfWork
-    public Optional<Thing> findPerson(@PathParam("id") IntParam id) {
+    public Optional<Thing> findThing(@PathParam("id") IntParam id) {
         return thingDAO.findById(id.get());
     }
 
     @POST
     @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
-    public Thing createEntity(Thing e) {
+    public Thing createThing(Thing e) {
         return thingDAO.create(e);
     }
 }
