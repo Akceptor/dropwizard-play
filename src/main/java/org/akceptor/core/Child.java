@@ -1,13 +1,10 @@
 package org.akceptor.core;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Entity
-@Table(name = "Thing")
-public class Thing {
+@Table(name = "Child")
+public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -15,15 +12,11 @@ public class Thing {
     @Column(name = "NAME", nullable = false, length = 100)
     private String name;
 
-    //@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    //private List<Child> children = new ArrayList<>();
+    //@JoinColumn(name = "parent", referencedColumnName = "id")
+    //@ManyToOne
+   // private Thing parent;
 
-    public Thing() {
-    }
-
-    public Thing(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Child() {
     }
 
     public int getId() {
@@ -42,21 +35,9 @@ public class Thing {
         this.name = name;
     }
 
-    /*public List<Child> getChildren() {
-        return Collections.unmodifiableList(children);
-    }
-
-    public void setChildren(List<Child> children) {
-        this.children = children;
-    }
-
-    public void addChild(Child child) {
-        this.children.add(child);
-    }*/
-
     @Override
     public String toString() {
-        return "Thing {" +
+        return "Child {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
@@ -67,10 +48,10 @@ public class Thing {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Thing things = (Thing) o;
+        Child child = (Child) o;
 
-        if (id != things.id) return false;
-        return name != null ? name.equals(things.name) : things.name == null;
+        if (id != child.id) return false;
+        return name != null ? name.equals(child.name) : child.name == null;
     }
 
     @Override

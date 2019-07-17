@@ -16,8 +16,8 @@ public class ThingDAO extends AbstractDAO<Thing> {
         return Optional.ofNullable(get(id));
     }
 
-    public Thing create(Thing e) {
-        return persist(e);
+    public Thing create(Thing thing) {
+        return persist(thing);
     }
 
     public List<Thing> findAll() {
