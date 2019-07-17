@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Path("/children")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class ChildrenRESTController {
     private final ChildDAO childDAO;
 
@@ -37,7 +38,6 @@ public class ChildrenRESTController {
 
     @POST
     @UnitOfWork
-    @Consumes(MediaType.APPLICATION_JSON)
     public Child createChild(Child child) {
         return childDAO.create(child);
     }

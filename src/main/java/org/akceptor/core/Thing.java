@@ -1,5 +1,7 @@
 package org.akceptor.core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,20 +12,18 @@ import java.util.List;
 public class Thing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "THING_ID")
     private int id;
-    @Column(name = "NAME", nullable = false, length = 100)
+    @Column(name = "THING_NAME", nullable = false, length = 100)
     private String name;
 
-    //@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    //private List<Child> children = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "thing_id")
+    @JsonProperty("children")
+    private List<Child> children = new ArrayList<>();
 
     public Thing() {
-    }
-
-    public Thing(int id, String name) {
-        this.id = id;
-        this.name = name;
+        //JSON deserialization
     }
 
     public int getId() {
@@ -42,7 +42,7 @@ public class Thing {
         this.name = name;
     }
 
-    /*public List<Child> getChildren() {
+    public List<Child> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
@@ -52,13 +52,14 @@ public class Thing {
 
     public void addChild(Child child) {
         this.children.add(child);
-    }*/
+    }
 
     @Override
     public String toString() {
-        return "Thing {" +
+        return "Thing: {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", children=" + children +
                 '}';
     }
 

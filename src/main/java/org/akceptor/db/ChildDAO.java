@@ -2,6 +2,7 @@ package org.akceptor.db;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.akceptor.core.Child;
+import org.akceptor.core.Thing;
 import org.hibernate.SessionFactory;
 
 import java.util.List;

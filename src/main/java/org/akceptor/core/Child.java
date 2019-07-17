@@ -1,5 +1,7 @@
 package org.akceptor.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,16 +9,18 @@ import javax.persistence.*;
 public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "CHILD_ID")
     private int id;
-    @Column(name = "NAME", nullable = false, length = 100)
+    @Column(name = "CHILD_NAME", nullable = false, length = 100)
     private String name;
 
-    //@JoinColumn(name = "parent", referencedColumnName = "id")
-    //@ManyToOne
-   // private Thing parent;
+    @ManyToOne
+    @JoinColumn(name = "thing_id", insertable=false, updatable=false)
+    @JsonIgnore
+    private Thing thing;
 
     public Child() {
+        //Json deserialization
     }
 
     public int getId() {
@@ -35,11 +39,21 @@ public class Child {
         this.name = name;
     }
 
+
+    public Thing getThing() {
+        return thing;
+    }
+
+    public void setThing(Thing thing) {
+        this.thing = thing;
+    }
+
     @Override
     public String toString() {
-        return "Child {" +
+        return "Child: {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", parent=" + thing +
                 '}';
     }
 

@@ -1,27 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
-
-    <changeSet id="1" author="akceptor">
-        <createTable tableName="thing">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="akceptor" id="1563781017031-1">
+        <createTable catalogName="TESTAPP" schemaName="PUBLIC" tableName="CHILD">
+            <column autoIncrement="true" name="CHILD_ID" type="INT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_3"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="CHILD_NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="THING_ID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="akceptor" id="1563781017031-2">
+        <createTable catalogName="TESTAPP" schemaName="PUBLIC" tableName="THING">
+            <column autoIncrement="true" name="THING_ID" type="INT">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_4"/>
+            </column>
+            <column name="THING_NAME" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createTable tableName="child">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+    </changeSet>
+    <changeSet author="akceptor" id="1563781017031-3">
+        <createIndex catalogName="TESTAPP" indexName="FK9EWEL37WE3V8K5FEX2KLIS8UM_INDEX_3" schemaName="PUBLIC" tableName="CHILD">
+            <column name="THING_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="akceptor" id="1563781017031-4">
+        <addForeignKeyConstraint baseColumnNames="THING_ID" baseTableCatalogName="TESTAPP" baseTableName="CHILD" baseTableSchemaName="PUBLIC" constraintName="FK9EWEL37WE3V8K5FEX2KLIS8UM" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="THING_ID" referencedTableCatalogName="TESTAPP" referencedTableName="THING" referencedTableSchemaName="PUBLIC" validate="true"/>
     </changeSet>
 </databaseChangeLog>
